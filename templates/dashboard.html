@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard | Smart Insurance Advisor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f2f3ff",
+              "surface-variant": "#dae2fd",
+              "inverse-surface": "#283044",
+              "on-primary-fixed": "#002020",
+              "tertiary-fixed-dim": "#b8cac9",
+              "surface-bright": "#faf8ff",
+              "inverse-on-surface": "#eef0ff",
+              "surface-container-highest": "#dae2fd",
+              "on-secondary-container": "#27308a",
+              "tertiary-container": "#657675",
+              "on-tertiary-fixed": "#0e1e1e",
+              "on-background": "#131b2e",
+              "surface-tint": "#006a6a",
+              "surface": "#faf8ff",
+              "surface-container": "#eaedff",
+              "on-primary-fixed-variant": "#004f4f",
+              "inverse-primary": "#76d6d5",
+              "background": "#faf8ff",
+              "on-primary-container": "#e3fffe",
+              "secondary": "#4c56af",
+              "tertiary": "#4d5d5d",
+              "surface-dim": "#d2d9f4",
+              "on-error": "#ffffff",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#3a4a49",
+              "on-secondary-fixed": "#000767",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#131b2e",
+              "secondary-fixed": "#e0e0ff",
+              "primary": "#006565",
+              "on-primary": "#ffffff",
+              "outline-variant": "#bdc9c8",
+              "on-tertiary-container": "#ebfdfc",
+              "surface-container-high": "#e2e7ff",
+              "primary-fixed-dim": "#76d6d5",
+              "tertiary-fixed": "#d4e6e5",
+              "secondary-container": "#959efd",
+              "primary-fixed": "#93f2f2",
+              "on-secondary-fixed-variant": "#343d96",
+              "primary-container": "#008080",
+              "secondary-fixed-dim": "#bdc2ff",
+              "outline": "#6e7979",
+              "on-surface-variant": "#3e4949"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #faf8ff;
+            color: #131b2e;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(24px);
+        }
+        .dashboard-avatar {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 9999px;
+            object-fit: cover;
+            border: 3px solid rgba(0, 101, 101, 0.22);
+            box-shadow: 0 16px 32px rgba(0, 101, 101, 0.12);
+            display: none;
+        }
+        .dashboard-avatar.visible {
+            display: block;
+        }
+        .dashboard-avatar-fallback.hidden {
+            display: none;
+        }
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .nav-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+            border: 2px solid #006565;
+        }
+        .nav-img.visible {
+            display: block;
+        }
+        .profile-menu {
+            position: absolute;
+            right: 0;
+            top: 110%;
+            margin-top: 10px;
+            background: white;
+            padding: 0;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 280px;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+            overflow: hidden;
+        }
+        .profile-menu.hidden {
+            display: none;
+        }
+        .profile-menu.visible {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+        .profile-menu-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .profile-menu-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f5f5f5;
+            border: 2px solid #006565;
+        }
+        .profile-menu-name {
+            font-weight: 600;
+            color: #131b2e;
+            font-size: 14px;
+        }
+        .user-email {
+            font-size: 12px;
+            color: #666;
+            margin: 4px 0 0 0;
+            font-weight: 400;
+        }
+        .profile-menu-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .profile-menu input[type="file"] {
+            display: none;
+        }
+        .profile-upload-btn {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            background: #f5f5f5;
+            border: 2px dashed #d0d0d0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #006565;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .profile-upload-btn:hover {
+            background: #f0f8f8;
+            border-color: #006565;
+        }
+        .profile-menu input[type="text"] {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 13px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+        .profile-menu input[type="text"]:focus {
+            outline: none;
+            border-color: #006565;
+            box-shadow: 0 0 0 3px rgba(0, 101, 101, 0.1);
+        }
+        .btn-primary {
+            background-color: #006565;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #004a4a;
+        }
+        .profile-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+
+{% include 'navbar.html' %}
+
+<main class="pt-32 pb-24 px-20 max-w-[1440px] mx-auto min-h-screen">
+<!-- Welcome Section -->
+<div class="mb-16">
+<h1 class="font-headline text-5xl font-extrabold tracking-tight text-on-surface mb-4">Welcome, {{ user_name }}!</h1>
+<p class="text-lg text-on-surface-variant max-w-2xl leading-relaxed">Manage your predictions, view your purchased plans, and access your insurance dashboard.</p>
+</div>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="space-y-3 mb-8 max-w-4xl">
+    {% for category, message in messages %}
+    <div class="rounded-2xl px-5 py-4 text-sm font-semibold {% if category == 'error' %}bg-error-container text-on-error-container{% else %}bg-primary/10 text-primary{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<div class="grid grid-cols-12 gap-8">
+<!-- User Profile Section -->
+<div class="col-span-3">
+<div class="glass-panel p-8 rounded-lg border border-outline-variant/15 shadow-[0_20px_60px_rgba(19,27,46,0.04)]">
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white mb-6 shadow-lg">
+<img id="dashboardProfileImage" class="dashboard-avatar" alt="Profile image" {% if user_info and user_info.image_path %}src="{{ user_info.image_path }}"{% endif %}/>
+<span id="dashboardProfileFallback" class="material-symbols-outlined text-6xl dashboard-avatar-fallback">account_circle</span>
+</div>
+<h2 class="font-headline text-2xl font-bold text-on-surface mb-2">{{ user_name }}</h2>
+<p class="text-sm text-on-surface-variant mb-6 break-all">{{ user_email }}</p>
+<a href="{{ url_for('predict') }}" class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-full font-manrope font-bold shadow-lg shadow-primary/20 hover:scale-95 transition-transform duration-150 inline-block text-center mb-3">
++ Generate Prediction
+</a>
+<a href="{{ url_for('claims') }}" class="w-full bg-surface-container-low text-primary py-3 rounded-full font-manrope font-bold border border-primary/20 hover:border-primary/50 transition-all duration-150 inline-block text-center text-sm">
+View Claims
+</a>
+</div>
+</div>
+</div>
+
+<div class="col-span-9 space-y-8">
+<!-- Purchased Plan Section -->
+<div class="glass-panel p-8 rounded-lg border border-outline-variant/15 shadow-[0_20px_60px_rgba(19,27,46,0.04)]">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<h3 class="font-headline text-2xl font-bold">Current Plan</h3>
+</div>
+
+{% if latest_purchase %}
+{% set is_genz_plan = latest_purchase.plan_name == 'GENZ Plan' %}
+<div class="bg-gradient-to-br from-primary/10 to-primary-container/10 p-8 rounded-lg border border-primary/20">
+<div class="flex flex-col gap-6 lg:flex-row lg:justify-between lg:items-start mb-6">
+<div>
+<p class="text-sm text-on-surface-variant mb-2">Plan Name</p>
+<div class="flex flex-wrap items-center gap-3">
+<h4 class="font-headline text-3xl font-bold text-primary">{{ latest_purchase.plan_name }}</h4>
+<span class="rounded-full px-4 py-1 text-xs font-bold uppercase tracking-[0.18em] {% if is_genz_plan %}bg-secondary-container/70 text-on-secondary-container{% else %}bg-surface-container-high text-on-surface-variant{% endif %}">
+{% if is_genz_plan %}Modern Accent{% else %}Neutral Tone{% endif %}
+</span>
+</div>
+<p class="mt-2 text-sm text-on-surface-variant">Purchased on {{ latest_purchase.date|display_date }}</p>
+</div>
+<div class="text-right">
+<p class="text-sm text-on-surface-variant mb-2">Monthly Premium</p>
+<p class="font-headline text-4xl font-extrabold text-primary">&#8377;{{ latest_purchase.price|inr }}</p>
+</div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-primary/20">
+<div class="rounded-lg bg-white/70 p-4">
+<p class="text-xs text-on-surface-variant uppercase tracking-wide mb-2">Member Details</p>
+<div class="text-sm space-y-1">
+<p><span class="font-bold">Age:</span> {{ latest_purchase.age }}</p>
+<p><span class="font-bold">Gender:</span> {{ latest_purchase.gender }}</p>
+<p><span class="font-bold">BMI:</span> {{ latest_purchase.bmi }}</p>
+<p><span class="font-bold">Dependents:</span> {{ latest_purchase.dependents }}</p>
+</div>
+</div>
+<div class="rounded-lg bg-white/70 p-4">
+<p class="text-xs text-on-surface-variant uppercase tracking-wide mb-2">Lifestyle</p>
+<div class="text-sm space-y-1">
+<p><span class="font-bold">Tobacco:</span> {{ latest_purchase.smoker }}</p>
+<p><span class="font-bold">Alcohol:</span> {{ latest_purchase.alcohol }}</p>
+</div>
+</div>
+<div class="rounded-lg bg-white/70 p-4">
+<p class="text-xs text-on-surface-variant uppercase tracking-wide mb-2">Diseases</p>
+<div class="text-sm space-y-1">
+{% if latest_purchase.diseases %}
+{% for disease in latest_purchase.diseases.split('|') %}
+{% if disease and disease.strip() %}
+<span class="mb-1 mr-1 inline-block rounded bg-primary/10 px-2 py-1 text-xs font-semibold text-primary">{{ disease.strip() }}</span>
+{% endif %}
+{% endfor %}
+{% else %}
+<p class="text-on-surface-variant">None reported</p>
+{% endif %}
+</div>
+</div>
+</div>
+<div class="mt-6 flex justify-end">
+<form action="{{ url_for('cancel_plan') }}" method="post" class="mr-3">
+<button type="submit" class="inline-flex items-center justify-center gap-2 rounded-full border border-error/25 bg-white px-6 py-3 text-sm font-bold text-error transition-all hover:bg-error-container">
+Cancel Plan
+<span class="material-symbols-outlined text-base">cancel</span>
+</button>
+</form>
+<a href="{{ url_for('claims') }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-transform hover:scale-95">
+File a Claim
+<span class="material-symbols-outlined text-base">description</span>
+</a>
+</div>
+</div>
+{% else %}
+<div class="bg-surface-container-low p-12 rounded-lg border-2 border-dashed border-outline-variant/30 text-center">
+<span class="material-symbols-outlined text-6xl text-outline-variant/40 block mb-4">shopping_cart</span>
+<p class="text-lg font-bold text-on-surface-variant mb-2">No Plan Purchased Yet</p>
+<p class="text-sm text-on-surface-variant mb-6">Generate a prediction and compare plans to get started.</p>
+<a href="{{ url_for('predict') }}" class="inline-block bg-primary text-white px-8 py-3 rounded-full font-bold text-sm hover:scale-95 transition-transform">
+Browse Plans
+</a>
+</div>
+{% endif %}
+</div>
+
+<!-- Prediction History Section -->
+<div class="glass-panel p-8 rounded-lg border border-outline-variant/15 shadow-[0_20px_60px_rgba(19,27,46,0.04)]">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">history</span>
+</div>
+<h3 class="font-headline text-2xl font-bold">Prediction History</h3>
+</div>
+
+{% if predictions %}
+<div class="space-y-4">
+{% for prediction in predictions %}
+<div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant/10 hover:border-primary/30 transition-all">
+<div class="flex items-start justify-between gap-4">
+<div class="grid flex-1 grid-cols-4 gap-4 items-center">
+<div>
+<p class="text-xs text-on-surface-variant uppercase tracking-wide mb-1">Date</p>
+<p class="font-bold">{{ prediction.date|display_date }}</p>
+<p class="text-xs text-on-surface-variant">{{ prediction.date.split(' ')[1] }}</p>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant uppercase tracking-wide mb-1">Premium</p>
+<p class="font-headline text-xl font-bold text-primary">&#8377;{{ prediction.premium|inr }}</p>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant uppercase tracking-wide mb-1">Risk Level</p>
+<div class="flex items-center gap-2">
+<span class="inline-block px-3 py-1 rounded-full text-xs font-bold {% if prediction.risk_label == 'Low' %}bg-green-100 text-green-700{% elif prediction.risk_label == 'Medium' %}bg-yellow-100 text-yellow-700{% else %}bg-red-100 text-red-700{% endif %}">
+{{ prediction.risk_label }}
+</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs text-on-surface-variant uppercase tracking-wide mb-1">Profile</p>
+<div class="text-sm space-y-1">
+<p><span class="font-bold">Age:</span> {{ prediction.age }}</p>
+<p><span class="font-bold">BMI:</span> {{ prediction.bmi }}</p>
+</div>
+</div>
+</div>
+<form action="{{ url_for('delete_prediction', index=loop.index0) }}" method="POST" onsubmit="return confirm('Delete this prediction?');">
+<button type="submit" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-error/20 bg-error-container/60 text-error transition-all hover:bg-error hover:text-white" aria-label="Delete prediction">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</form>
+</div>
+
+<!-- Health Details -->
+{% if prediction.diseases and prediction.diseases != 'None' and prediction.diseases is string %}
+<div class="mt-4 pt-4 border-t border-outline-variant/10">
+<div class="flex flex-wrap gap-2">
+<span class="text-xs text-on-surface-variant font-bold">Conditions:</span>
+{% for disease in prediction.diseases.split('|') %}
+{% if disease and disease.strip() %}
+<span class="inline-block px-2 py-1 bg-primary/10 text-primary rounded text-xs font-semibold">{{ disease.strip() }}</span>
+{% endif %}
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
+<!-- Lifestyle Info -->
+<div class="mt-4 pt-4 border-t border-outline-variant/10 grid grid-cols-3 gap-4 text-sm">
+<div>
+<span class="text-on-surface-variant">Tobacco:</span>
+<span class="ml-2 font-bold">{{ prediction.smoker }}</span>
+</div>
+<div>
+<span class="text-on-surface-variant">Alcohol:</span>
+<span class="ml-2 font-bold">{{ prediction.alcohol }}</span>
+</div>
+<div>
+<span class="text-on-surface-variant">Gender:</span>
+<span class="ml-2 font-bold">{{ prediction.gender }}</span>
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<div class="bg-surface-container-low p-12 rounded-lg border-2 border-dashed border-outline-variant/30 text-center">
+<span class="material-symbols-outlined text-6xl text-outline-variant/40 block mb-4">analytics</span>
+<p class="text-lg font-bold text-on-surface-variant mb-2">No Predictions Yet</p>
+<p class="text-sm text-on-surface-variant mb-6">Generate your first insurance prediction to see your history here.</p>
+<a href="{{ url_for('predict') }}" class="inline-block bg-primary text-white px-8 py-3 rounded-full font-bold text-sm hover:scale-95 transition-transform">
+Generate Prediction
+</a>
+</div>
+{% endif %}
+</div>
+</div>
+</div>
+</main>
+
+<footer class="bg-surface-container-low w-full border-t-0 py-16">
+<div class="max-w-7xl mx-auto px-20 grid grid-cols-4 gap-16">
+<div class="col-span-1">
+<div class="text-lg font-bold text-teal-800 mb-6">Smart Insurance Advisor</div>
+<p class="font-inter text-sm text-slate-500 leading-relaxed">© 2024 Smart Insurance Advisor. The Digital Concierge Experience.</p>
+</div>
+<div class="col-span-1">
+<h5 class="font-manrope font-bold text-teal-700 mb-6">Platform</h5>
+<nav class="flex flex-col gap-4">
+<a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('predict') }}">Predictor</a>
+<a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('compare') }}">Compare Plans</a>
+<a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('claims') }}">Claims</a>
+</nav>
+</div>
+<div class="col-span-1">
+<h5 class="font-manrope font-bold text-teal-700 mb-6">Company</h5>
+<nav class="flex flex-col gap-4">
+<a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+<a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('terms') }}">Terms of Service</a>
+<a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('contact') }}">Contact Us</a>
+</nav>
+</div>
+<div class="col-span-1">
+<h5 class="font-manrope font-bold text-teal-700 mb-6">Support</h5>
+<nav class="flex flex-col gap-4">
+<a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('support') }}">Support Center</a>
+<a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('knowledge_base') }}">Knowledge Base</a>
+</nav>
+</div>
+</div>
+</footer>
+
+<script>
+    (() => {
+    if (window.location.pathname !== "/dashboard") {
+        return;
+    }
+
+    const profileBtn = document.getElementById('profileBtn');
+    const profileMenu = document.getElementById('profileMenu');
+    const profileImageInput = document.getElementById('profileImageInput');
+    const saveNameBtn = document.getElementById('saveNameBtn');
+    const nameInput = document.getElementById('nameInput');
+    const navProfileImage = document.getElementById('navProfileImage');
+    const profileMenuAvatar = document.getElementById('profileMenuAvatar');
+    const profileMenuNameDisplay = document.getElementById('profileMenuNameDisplay');
+    const navUserName = document.getElementById('navUserName');
+    const dashboardProfileImage = document.getElementById('dashboardProfileImage');
+    const dashboardProfileFallback = document.getElementById('dashboardProfileFallback');
+    const userKey = {{ session.get('user_email')|tojson }};
+    const sessionUserName = {{ session.get('user_name', 'User')|tojson }};
+
+    localStorage.removeItem('profileImage');
+    localStorage.removeItem('profileName');
+    localStorage.removeItem('userName');
+
+    if (userKey) {
+        sessionStorage.setItem('user_email', userKey);
+    }
+
+    function setDashboardProfileImage(imageData) {
+        if (!dashboardProfileImage || !imageData) {
+            return;
+        }
+        dashboardProfileImage.src = imageData;
+        dashboardProfileImage.classList.add('visible');
+        if (dashboardProfileFallback) {
+            dashboardProfileFallback.classList.add('hidden');
+        }
+    }
+
+    function showDefaultProfileImage() {
+        if (navProfileImage) {
+            navProfileImage.removeAttribute('src');
+            navProfileImage.classList.remove('visible');
+        }
+        if (profileMenuAvatar) {
+            profileMenuAvatar.removeAttribute('src');
+            profileMenuAvatar.style.display = 'none';
+        }
+        if (dashboardProfileImage) {
+            dashboardProfileImage.removeAttribute('src');
+            dashboardProfileImage.classList.remove('visible');
+        }
+        if (dashboardProfileFallback) {
+            dashboardProfileFallback.classList.remove('hidden');
+        }
+    }
+
+    if (profileBtn) {
+        profileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            profileMenu.classList.remove('hidden');
+            if (profileMenu.classList.contains('visible')) {
+                profileMenu.classList.remove('visible');
+            } else {
+                setTimeout(() => profileMenu.classList.add('visible'), 10);
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.remove('visible');
+                setTimeout(() => profileMenu.classList.add('hidden'), 250);
+            }
+        });
+
+        profileImageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) {
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const imageData = evt.target.result;
+                navProfileImage.src = imageData;
+                navProfileImage.classList.add('visible');
+                profileMenuAvatar.src = imageData;
+                profileMenuAvatar.style.display = 'block';
+                setDashboardProfileImage(imageData);
+                const currentUserKey = sessionStorage.getItem('user_email') || userKey;
+                if (currentUserKey) {
+                    localStorage.setItem(`profileImage_${currentUserKey}`, imageData);
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+
+        saveNameBtn.addEventListener('click', function() {
+            navUserName.textContent = sessionUserName;
+            profileMenuNameDisplay.textContent = sessionUserName;
+            nameInput.value = sessionUserName;
+            profileMenu.classList.remove('visible');
+            setTimeout(() => profileMenu.classList.add('hidden'), 250);
+        });
+
+        const savedImage = userKey ? localStorage.getItem(`profileImage_${userKey}`) : null;
+        if (savedImage) {
+            navProfileImage.src = savedImage;
+            navProfileImage.classList.add('visible');
+            profileMenuAvatar.src = savedImage;
+            profileMenuAvatar.style.display = 'block';
+            setDashboardProfileImage(savedImage);
+        } else {
+            showDefaultProfileImage();
+        }
+
+        navUserName.textContent = sessionUserName;
+        profileMenuNameDisplay.textContent = sessionUserName;
+        nameInput.value = sessionUserName;
+    }
+    })();
+</script>
+</body>
+</html>

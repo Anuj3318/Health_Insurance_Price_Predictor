@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Contact Us | Smart Insurance Advisor</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#006565",
+                        "on-surface": "#131b2e",
+                        "on-surface-variant": "#3e4949",
+                        "surface": "#faf8ff",
+                        "surface-container-low": "#f2f3ff"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { font-family: 'Inter', sans-serif; background-color: #faf8ff; color: #131b2e; }
+    </style>
+</head>
+<body class="bg-surface">
+    {% include 'navbar.html' %}
+
+    <main class="pt-32 pb-24 px-20 max-w-[1440px] mx-auto min-h-screen">
+        <div class="mb-16">
+            <h1 class="font-headline text-5xl font-extrabold tracking-tight text-on-surface mb-4">Contact Us</h1>
+            <p class="text-lg text-on-surface-variant max-w-2xl leading-relaxed">Have questions or need assistance? We're here to help! Get in touch with our support team.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="bg-white p-8 rounded-2xl shadow-md border border-outline-variant/10">
+                <h2 class="text-2xl font-bold text-on-surface mb-8">Contact Information</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary flex-shrink-0">
+                            <span class="material-symbols-outlined">mail</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-on-surface mb-1">Email</h3>
+                            <p class="text-on-surface-variant">aryanshukla211003@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary flex-shrink-0">
+                            <span class="material-symbols-outlined">phone</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-on-surface mb-1">Phone</h3>
+                            <p class="text-on-surface-variant">+91 8726526649</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary flex-shrink-0">
+                            <span class="material-symbols-outlined">location_on</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-on-surface mb-1">Response Time</h3>
+                            <p class="text-on-surface-variant">We typically respond within 24 hours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-md border border-outline-variant/10">
+                <h2 class="text-2xl font-bold text-on-surface mb-8">Send us a Message</h2>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="mb-6 space-y-3">
+                            {% for category, message in messages %}
+                                <div class="rounded-lg px-4 py-3 text-sm font-semibold {% if category == 'error' %}bg-red-100 text-red-800{% else %}bg-green-100 text-green-800{% endif %}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-on-surface mb-2">Your Name</label>
+                        <input type="text" name="name" required class="w-full px-4 py-3 border border-outline-variant/30 rounded-lg focus:outline-none focus:border-primary focus:ring-0 text-on-surface" placeholder="Your name"/>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-on-surface mb-2">Email Address</label>
+                        <input type="email" name="email" required class="w-full px-4 py-3 border border-outline-variant/30 rounded-lg focus:outline-none focus:border-primary focus:ring-0 text-on-surface" placeholder="your@email.com"/>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-on-surface mb-2">Message</label>
+                        <textarea name="message" required rows="5" class="w-full px-4 py-3 border border-outline-variant/30 rounded-lg focus:outline-none focus:border-primary focus:ring-0 text-on-surface resize-none" placeholder="Your message..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-lg font-bold hover:scale-95 transition-transform duration-150">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-surface-container-low w-full border-t-0 py-16">
+        <div class="max-w-7xl mx-auto px-20 grid grid-cols-4 gap-16">
+            <div class="col-span-1">
+                <div class="text-lg font-bold text-teal-800 mb-6">Smart Insurance Advisor</div>
+                <p class="font-inter text-sm text-slate-500 leading-relaxed">© 2024 Smart Insurance Advisor. The Digital Concierge Experience.</p>
+            </div>
+            <div class="col-span-1">
+                <h5 class="font-manrope font-bold text-teal-700 mb-6">Platform</h5>
+                <nav class="flex flex-col gap-4">
+                    <a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('predict') }}">Predictor</a>
+                    <a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('compare') }}">Compare Plans</a>
+                    <a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('claims') }}">Claims</a>
+                </nav>
+            </div>
+            <div class="col-span-1">
+                <h5 class="font-manrope font-bold text-teal-700 mb-6">Company</h5>
+                <nav class="flex flex-col gap-4">
+                    <a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+                    <a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('terms') }}">Terms of Service</a>
+                    <a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('contact') }}">Contact Us</a>
+                </nav>
+            </div>
+            <div class="col-span-1">
+                <h5 class="font-manrope font-bold text-teal-700 mb-6">Support</h5>
+                <nav class="flex flex-col gap-4">
+                    <a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('support') }}">Support Center</a>
+                    <a class="font-inter text-sm text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform" href="{{ url_for('knowledge_base') }}">Knowledge Base</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
