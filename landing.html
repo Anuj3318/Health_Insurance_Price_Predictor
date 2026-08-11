@@ -1,0 +1,591 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Smart Insurance Advisor | The Digital Concierge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f2f3ff",
+              "surface-variant": "#dae2fd",
+              "inverse-surface": "#283044",
+              "on-primary-fixed": "#002020",
+              "tertiary-fixed-dim": "#b8cac9",
+              "surface-bright": "#faf8ff",
+              "inverse-on-surface": "#eef0ff",
+              "surface-container-highest": "#dae2fd",
+              "on-secondary-container": "#27308a",
+              "tertiary-container": "#657675",
+              "on-tertiary-fixed": "#0e1e1e",
+              "on-background": "#131b2e",
+              "surface-tint": "#006a6a",
+              "surface": "#faf8ff",
+              "surface-container": "#eaedff",
+              "on-primary-fixed-variant": "#004f4f",
+              "inverse-primary": "#76d6d5",
+              "background": "#faf8ff",
+              "on-primary-container": "#e3fffe",
+              "secondary": "#4c56af",
+              "tertiary": "#4d5d5d",
+              "surface-dim": "#d2d9f4",
+              "on-error": "#ffffff",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#3a4a49",
+              "on-secondary-fixed": "#000767",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#131b2e",
+              "secondary-fixed": "#e0e0ff",
+              "primary": "#006565",
+              "on-primary": "#ffffff",
+              "outline-variant": "#bdc9c8",
+              "on-tertiary-container": "#ebfdfc",
+              "surface-container-high": "#e2e7ff",
+              "primary-fixed-dim": "#76d6d5",
+              "tertiary-fixed": "#d4e6e5",
+              "secondary-container": "#959efd",
+              "primary-fixed": "#93f2f2",
+              "on-secondary-fixed-variant": "#343d96",
+              "primary-container": "#008080",
+              "secondary-fixed-dim": "#bdc2ff",
+              "outline": "#6e7979",
+              "on-surface-variant": "#3e4949"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #faf8ff;
+            color: #131b2e;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(24px);
+        }
+        .hero-gradient-text {
+            background: linear-gradient(135deg, #006565 0%, #008080 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, #006565 0%, #008080 100%);
+        }
+        .tonal-shift-no-borders {
+            border: none !important;
+        }
+        .page-shell {
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+        .modal-open .page-shell {
+            filter: blur(10px);
+            transform: scale(0.995);
+        }
+        .how-it-works-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 90;
+        }
+        .how-it-works-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .how-it-works-modal {
+            width: min(70vw, 800px);
+            max-height: min(85vh, 760px);
+            overflow-y: auto;
+            position: relative;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            background-image: linear-gradient(145deg, rgba(0, 128, 128, 0.28), rgba(255, 255, 255, 0.12));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 0 28px 80px rgba(7, 46, 46, 0.28);
+            color: #efffff;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .how-it-works-overlay.is-visible .how-it-works-modal {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .how-it-works-modal__close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            width: 2.6rem;
+            height: 2.6rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            font-size: 1.35rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .how-it-works-modal__close:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: rotate(90deg);
+        }
+        .workflow-step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1rem 1.1rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .workflow-step__index {
+            flex-shrink: 0;
+            width: 2.6rem;
+            height: 2.6rem;
+            border-radius: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            color: #006565;
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+        }
+        .workflow-step__title {
+            color: #ffffff;
+        }
+        .workflow-step__text {
+            color: rgba(240, 255, 255, 0.82);
+        }
+        .profile-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .nav-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+            border: 2px solid #006565;
+        }
+        .nav-img.visible {
+            display: block;
+        }
+        .profile-menu {
+            position: absolute;
+            right: 0;
+            top: 110%;
+            margin-top: 10px;
+            background: white;
+            padding: 0;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 280px;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+            overflow: hidden;
+        }
+        .profile-menu.hidden {
+            display: none;
+        }
+        .profile-menu.visible {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+        .profile-menu-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .profile-menu-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f5f5f5;
+            border: 2px solid #006565;
+        }
+        .profile-menu-name {
+            font-weight: 600;
+            color: #131b2e;
+            font-size: 14px;
+        }
+        .user-email {
+            font-size: 12px;
+            color: #666;
+            margin: 4px 0 0 0;
+            font-weight: 400;
+        }
+        .profile-menu-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .profile-menu input[type="file"] {
+            display: none;
+        }
+        .profile-upload-btn {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            background: #f5f5f5;
+            border: 2px dashed #d0d0d0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #006565;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .profile-upload-btn:hover {
+            background: #f0f8f8;
+            border-color: #006565;
+        }
+        .profile-menu input[type="text"] {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 13px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+        .profile-menu input[type="text"]:focus {
+            outline: none;
+            border-color: #006565;
+            box-shadow: 0 0 0 3px rgba(0, 101, 101, 0.1);
+        }
+        .btn-primary {
+            background-color: #006565;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #004a4a;
+        }
+        .btn-secondary {
+            background-color: #f0f8f8;
+            color: #006565;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #e0f0f0;
+        }
+        @media (max-width: 768px) {
+            .how-it-works-overlay {
+                padding: 1rem;
+            }
+            .how-it-works-modal {
+                width: 90%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<div class="page-shell">
+{% include 'navbar.html' %}
+<main class="pt-24 overflow-hidden">
+<section class="relative px-20 pt-24 pb-32 min-h-[921px] flex items-center">
+<div class="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[10%] left-[-5%] w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px]"></div>
+<div class="grid grid-cols-12 gap-16 w-full max-w-7xl mx-auto relative z-10">
+<div class="col-span-7 flex flex-col justify-center">
+<h1 class="font-headline font-extrabold text-[4.5rem] leading-[1.1] tracking-tight text-on-surface mb-8">
+                        Secure Your Future with <span class="hero-gradient-text">Smart Insurance Prediction</span>
+</h1>
+<p class="font-body text-xl text-on-surface-variant/80 mb-12 max-w-xl leading-relaxed">
+                        Experience the next-gen AI-driven insurance predictor for accurate planning. Personalized coverage insights delivered by our digital concierge.
+                    </p>
+<div class="flex items-center gap-6">
+<a class="btn-primary-gradient text-white px-10 py-5 rounded-full font-bold text-lg shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all active:scale-95" href="{{ url_for('predict') }}">
+                            Predict Your Insurance
+                        </a>
+<button class="glass-panel text-on-surface px-10 py-5 rounded-full font-bold text-lg border border-outline-variant/20 hover:bg-surface-container-lowest transition-all active:scale-95" onclick="openHowItWorksModal()" type="button">
+                            How it works
+                        </button>
+</div>
+</div>
+<div class="col-span-5 relative">
+<div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden shadow-2xl">
+<img alt="Professional financial planning" class="w-full h-full object-cover" data-alt="Modern high-end office interior with glass walls and professional woman analyzing data on a large digital screen with teal accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuOkopyl7QwQU6I8ZYy3C3n4VM8AHhc9xv4bEqzK0T97CvQkulje58BzqsYvubvwbcd_8kTCP9_MokRvE2CwWh_oaLJ09JS_8LiSMEfRNtLDWZ-r86DLCULIKxqsT3gBNYs6VxPBS59-t8SB4b-9K_6tl7jvQzfM93berOQtn-qhjSshjD_oQy-QWWVYx7U9-FSeNLzEsqmiwNSbii0bC8ELxEARD0abL2WfXNhVq-esQoVfLMHzz1Q-SEJ8GOOQjx7Xe39YD4Msg"/>
+<div class="absolute bottom-8 -left-12 glass-panel p-8 rounded-lg shadow-2xl border border-white/40 w-80">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60">Live Forecast</p>
+<p class="text-lg font-bold text-on-surface">98.4% Accuracy</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[98%]"></div>
+</div>
+<p class="text-sm text-on-surface-variant leading-snug">AI-driven models updated with 2024 regional claim data.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-low/50 py-16 px-20">
+<div class="max-w-7xl mx-auto flex flex-col items-center">
+<p class="text-sm font-bold uppercase tracking-[0.2em] text-on-surface-variant/40 mb-12">Trusted by Industry Leaders</p>
+<div class="flex justify-between items-center w-full gap-20">
+<div class="grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer text-2xl font-bold font-headline text-slate-700">SBI Life</div>
+<div class="grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer text-2xl font-bold font-headline text-slate-700">ICICI Lombard</div>
+<div class="grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer text-2xl font-bold font-headline text-slate-700">HDFC ERGO</div>
+<div class="grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer text-2xl font-bold font-headline text-slate-700">TATA AIG</div>
+</div>
+</div>
+</section>
+<section class="px-20 py-32 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="mb-20">
+<h2 class="font-headline font-bold text-5xl text-on-surface mb-6">Unrivaled Benefits</h2>
+<p class="text-on-surface-variant text-lg max-w-2xl">We've redefined the insurance experience with features designed for the modern individual.</p>
+</div>
+<div class="grid grid-cols-3 gap-16">
+<div class="glass-panel p-10 rounded-lg shadow-[0_20px_40px_rgba(19,27,46,0.04)] border border-white/50 hover:-translate-y-2 transition-transform duration-500 group">
+<div class="w-16 h-16 rounded-2xl bg-primary-container/10 flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">percent</span>
+</div>
+<h3 class="font-headline font-bold text-2xl mb-4">30% Discount</h3>
+<p class="text-on-surface-variant leading-relaxed">Leverage our predictive algorithms to find exclusive group-tier discounts hidden from the general public.</p>
+</div>
+<div class="glass-panel p-10 rounded-lg shadow-[0_20px_40px_rgba(19,27,46,0.04)] border border-white/50 hover:-translate-y-2 transition-transform duration-500 group">
+<div class="w-16 h-16 rounded-2xl bg-secondary-container/10 flex items-center justify-center text-secondary mb-8 group-hover:bg-secondary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">schedule</span>
+</div>
+<h3 class="font-headline font-bold text-2xl mb-4">Zero Waiting Period</h3>
+<p class="text-on-surface-variant leading-relaxed">Instant qualification through our pre-verified digital vault. Start your coverage the moment you decide.</p>
+</div>
+<div class="glass-panel p-10 rounded-lg shadow-[0_20px_40px_rgba(19,27,46,0.04)] border border-white/50 hover:-translate-y-2 transition-transform duration-500 group">
+<div class="w-16 h-16 rounded-2xl bg-teal-100 flex items-center justify-center text-teal-800 mb-8 group-hover:bg-teal-800 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">payments</span>
+</div>
+<h3 class="font-headline font-bold text-2xl mb-4">Instant Cashback</h3>
+<p class="text-on-surface-variant leading-relaxed">Receive automated rewards directly to your wallet for healthy life choices and safe driving records.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="px-20 py-32 bg-surface-container-low/30 relative">
+<div class="max-w-7xl mx-auto grid grid-cols-2 gap-24 items-center">
+<div class="order-2 md:order-1">
+<span class="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">Our Philosophy</span>
+<h2 class="font-headline font-extrabold text-5xl leading-tight text-on-surface mb-8">The Future of Insurance is Personal</h2>
+<p class="text-lg text-on-surface-variant leading-relaxed mb-8">
+                        At Smart Insurance Advisor, we believe that data should serve humanity, not the other way around. Our Digital Concierge experience combines high-touch personal service with high-frequency AI analysis to ensure you're never over-insured or under-protected.
+                    </p>
+<ul class="space-y-6 mb-10">
+<li class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-semibold text-on-surface">Transparency at every calculation step</span>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-semibold text-on-surface">Human advisors available 24/7</span>
+</li>
+</ul>
+<button class="text-primary font-bold border-b-2 border-primary pb-1 hover:border-primary-container transition-all" type="button">Learn More About Our Tech</button>
+</div>
+<div class="order-1 md:order-2">
+<div class="relative rounded-xl overflow-hidden shadow-2xl">
+<img alt="Collaborative meeting" class="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700" data-alt="A warm, professional consultation scene in a minimalist high-end lounge with soft natural lighting and elegant office furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB27OYqa4HB-XQKWukl_AvfGYV9zDpOmMjhv1lbyS0bkAx8nZT9OK1K0qD7GBu_6sN1FhAiH7tLjFhyYTtaYOVswqDGprffEMu6SaD9KNbuWVTmtaLPoiszMu8QwOYcT9fagEJ_GLqWIBuOJM8kw3oSVkvT8dS38Fz30v5K_eUmFIcZl4J_dcT31cadQ3CBEYs3JgOdEyiLRy2X9Ay_dDGkdtU-WObG8ZIk8ixcEbDMSuqIgq-S0jSyQBlmI0n77J67_EinK6Mx-os"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-surface-container-low dark:bg-slate-950 w-full pt-16 pb-8 px-20">
+<div class="grid grid-cols-4 gap-16 w-full max-w-7xl mx-auto mb-16">
+<div class="col-span-1">
+<div class="text-lg font-bold text-teal-800 mb-6 font-headline">Smart Insurance Advisor</div>
+<p class="text-sm text-slate-500 leading-relaxed">The Digital Concierge Experience. Transforming insurance through intelligence and empathy.</p>
+</div>
+<div class="flex flex-col gap-4">
+<p class="font-bold text-on-surface text-sm uppercase tracking-widest mb-2">Platform</p>
+<a class="text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform text-sm" href="{{ url_for('predict') }}">Predictor</a>
+<a class="text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform text-sm" href="{{ url_for('compare') }}">Compare Plans</a>
+<a class="text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform text-sm" href="{{ url_for('claims') }}">Claims</a>
+</div>
+<div class="flex flex-col gap-4">
+<p class="font-bold text-on-surface text-sm uppercase tracking-widest mb-2">Company</p>
+<a class="text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform text-sm" href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+<a class="text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform text-sm" href="{{ url_for('terms') }}">Terms of Service</a>
+<a class="text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform text-sm" href="{{ url_for('contact') }}">Contact Us</a>
+</div>
+<div class="flex flex-col gap-4">
+<p class="font-bold text-on-surface text-sm uppercase tracking-widest mb-2">Support</p>
+<a class="text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform text-sm" href="{{ url_for('support') }}">Support Center</a>
+<a class="text-slate-500 hover:text-teal-600 hover:translate-x-1 transition-transform text-sm" href="{{ url_for('knowledge_base') }}">Knowledge Base</a>
+</div>
+</div>
+<div class="max-w-7xl mx-auto border-t border-outline-variant/10 pt-8 flex justify-between items-center text-xs text-slate-400 font-body">
+<p>© 2024 Smart Insurance Advisor. The Digital Concierge Experience.</p>
+<div class="flex gap-8">
+<span>Twitter</span>
+<span>LinkedIn</span>
+<span>Instagram</span>
+</div>
+</div>
+</footer>
+</div>
+<div aria-hidden="true" class="how-it-works-overlay" id="howItWorksOverlay">
+<div aria-labelledby="howItWorksTitle" aria-modal="true" class="how-it-works-modal p-8 md:p-10" role="dialog">
+<button aria-label="Close how it works modal" class="how-it-works-modal__close" onclick="closeHowItWorksModal()" type="button">×</button>
+<div class="pr-10">
+<p class="text-xs font-bold uppercase tracking-[0.35em] text-teal-100/80 mb-4">Workflow Overview</p>
+<h2 class="font-headline font-extrabold text-3xl md:text-4xl leading-tight mb-4" id="howItWorksTitle">How Smart Insurance Prediction Works</h2>
+<p class="text-base md:text-lg text-teal-50/85 leading-relaxed mb-8">
+                    The popup reflects the actual backend flow of Smart Insurance Advisor, from user input and Flask validation to `model.pkl` prediction, risk scoring, and the final result shown on the predictor page.
+                </p>
+<div class="space-y-4">
+<div class="workflow-step">
+<div class="workflow-step__index">1</div>
+<div>
+<h3 class="workflow-step__title font-headline font-bold text-xl mb-2">User details are collected</h3>
+<p class="workflow-step__text leading-relaxed">The predictor form captures age, BMI, gender, smoker status, alcohol usage, number of dependents, and other profile details needed for premium estimation.</p>
+</div>
+</div>
+<div class="workflow-step">
+<div class="workflow-step__index">2</div>
+<div>
+<h3 class="workflow-step__title font-headline font-bold text-xl mb-2">Flask validates the request</h3>
+<p class="workflow-step__text leading-relaxed">The backend validates submitted values before prediction, ensuring the request contains complete, correctly formatted, and safe input data.</p>
+</div>
+</div>
+<div class="workflow-step">
+<div class="workflow-step__index">3</div>
+<div>
+<h3 class="workflow-step__title font-headline font-bold text-xl mb-2">`model.pkl` processes the input</h3>
+<p class="workflow-step__text leading-relaxed">Validated user data is transformed into the format expected by the trained machine learning model stored in `model.pkl`.</p>
+</div>
+</div>
+<div class="workflow-step">
+<div class="workflow-step__index">4</div>
+<div>
+<h3 class="workflow-step__title font-headline font-bold text-xl mb-2">Insurance premium is predicted</h3>
+<p class="workflow-step__text leading-relaxed">The model analyzes the health and lifestyle features and returns an estimated insurance premium for that user profile.</p>
+</div>
+</div>
+<div class="workflow-step">
+<div class="workflow-step__index">5</div>
+<div>
+<h3 class="workflow-step__title font-headline font-bold text-xl mb-2">Risk score and category are generated</h3>
+<p class="workflow-step__text leading-relaxed">The application derives a risk score and maps it into a Low, Medium, or High category so the prediction is easier to understand.</p>
+</div>
+</div>
+<div class="workflow-step">
+<div class="workflow-step__index">6</div>
+<div>
+<h3 class="workflow-step__title font-headline font-bold text-xl mb-2">Results appear on the predictor page</h3>
+<p class="workflow-step__text leading-relaxed">The final prediction, risk score, and category are displayed back on the predictor page so the user can review the outcome immediately.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+    const howItWorksOverlay = document.getElementById('howItWorksOverlay');
+    const howItWorksModal = howItWorksOverlay.querySelector('.how-it-works-modal');
+
+    function openHowItWorksModal() {
+        document.body.classList.add('modal-open');
+        howItWorksOverlay.classList.add('is-visible');
+        howItWorksOverlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeHowItWorksModal() {
+        howItWorksOverlay.classList.remove('is-visible');
+        howItWorksOverlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+    }
+
+    howItWorksOverlay.addEventListener('click', function (event) {
+        if (!howItWorksModal.contains(event.target)) {
+            closeHowItWorksModal();
+        }
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && howItWorksOverlay.classList.contains('is-visible')) {
+            closeHowItWorksModal();
+        }
+    });
+
+</script>
+</body>
+</html>
