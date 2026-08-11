@@ -1,0 +1,7 @@
+email,date,age,gender,bmi,smoker,alcohol,dependents,diseases,premium,risk_score,risk_label
+aryandummy0001@gmail.com,2026-04-30 02:29:12,25,Male,22.0,No,No,0,Asthma,1863.1,12,Low
+aryandummy0001@gmail.com,2026-04-30 02:30:50,27,Male,22.0,Yes,Yes,1,,4439.72,48,Medium
+aryandummy0001@gmail.com,2026-04-30 11:36:47,50,Male,19.0,Yes,No,0,Asthma,7120.83,48,Medium
+anujtiwari945589@gmail.com,2026-04-30 11:41:52,25,Male,18.0,No,No,1,,2200.44,8,Low
+anujtiwari945589@gmail.com,2026-04-30 13:17:33,25,Male,19.0,No,No,0,Heart Disease,2094.79,11,Low
+aryandummy0001@gmail.com,2026-06-16 13:36:45,20,Male,18.0,No,No,0,,1777.9,3,Low
